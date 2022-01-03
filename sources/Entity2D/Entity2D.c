@@ -10,7 +10,7 @@
  * is and the subclasses won't need to implement their own version of these
  */
 
-int get_x(void * _self)
+int get_x(const void * _self)
 {
 	const struct Entity2D * self = _self;
 	assert(self && self->x);
@@ -18,7 +18,7 @@ int get_x(void * _self)
 	return self->x;
 }
 
-int get_y(void * _self)
+int get_y(const void * _self)
 {
 	const struct Entity2D * self = _self;
 	assert(self && self->y);

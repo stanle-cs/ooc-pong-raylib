@@ -21,6 +21,8 @@ set(PROJECT_INCLUDE "${CMAKE_CURRENT_LIST_DIR}/sources/" "${PROJECT_SOURCE_DIR}/
 
 # Include OOC for arbitrary files created by us
 include_directories("${PROJECT_SOURCE_DIR}/ooc/")
+include_directories("${PROJECT_SOURCE_DIR}/sources/Entity2D")
+include_directories("${PROJECT_SOURCE_DIR}/sources/Paddle")
 
 # Declaring our executable
 add_executable(${PROJECT_NAME})
