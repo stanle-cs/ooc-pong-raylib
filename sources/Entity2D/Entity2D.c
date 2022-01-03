@@ -1,5 +1,5 @@
 #include <assert.h>
-
+#include <raylib.h>
 // All implementation file of a new class need to include the class's struct and
 // the class's header file
 #include "Entity2D.h"
@@ -9,6 +9,8 @@
 /* All the static methods. Static methods are methods that can be inherited as-
  * is and the subclasses won't need to implement their own version of these
  */
+
+//getters
 
 int get_x(const void * _self)
 {
@@ -25,6 +27,25 @@ int get_y(const void * _self)
 
 	return self->y;
 }
+
+Color get_color(const void * _self)
+{
+	const struct Entity2D * self = _self;
+	assert(self);
+
+	return self->color;
+}
+
+//setters
+
+void move(void * _self, int dx, int dy)
+{
+	struct Entity2D * self = _self;
+	assert(self);
+	
+	self->x = self->x + dx;
+	self->y = self->y + dy;
+}
 //------------------------------------------------------------------------------
 /* Dynamic methods. These are the selectors we create so that we can select new
  * methods created by any subclasses of this class later on.
@@ -35,12 +56,12 @@ int get_y(const void * _self)
  * _self, but not the metadata in its class datastructure, so it is important 
  * that we put a const in front of the class variable but not the _self pointer.
  */
-void move(void * _self, int x, int y)
+void draw(const void * _self)
 {
 	const struct Entity2DClass * class = class_of(_self);
 
-	assert(class->move);
-	class->move(_self, x, y);
+	assert(class->draw);
+	class->draw(_self);
 }
 
 //------------------------------------------------------------------------------
@@ -49,12 +70,12 @@ void move(void * _self, int x, int y)
  * sure that if the function called by the selector will modify the data, we
  * cannot contract it as a const variable.
  */
-void super_move(const void * _class, void * _self, int x, int y)
+void super_draw(const void * _class,const  void * _self)
 {
 	const struct Entity2DClass * superclass = super(_class);
 
-	assert(_self && superclass->move);
-	superclass->move(_self, x, y);
+	assert(_self && superclass->draw);
+	superclass->draw(_self);
 }
 //------------------------------------------------------------------------------
 /* Class methods. These methods are actual methods that will be called by the
@@ -73,7 +94,7 @@ static void * Entity2D_ctor(void * _self, va_list * arglist_ptr)
 	// filling the data of the struct from the va_list given.
 	self->x = va_arg(*arglist_ptr, int);
 	self->y = va_arg(*arglist_ptr, int);
-
+	self->color = va_arg(*arglist_ptr, Color);
 	// Gotta return the pointer to self. This is needed for any subclasses
 	// to use this ctor later when they implement their own ctor.
 	return self;
@@ -81,14 +102,13 @@ static void * Entity2D_ctor(void * _self, va_list * arglist_ptr)
 
 // Here we are modifying the data pointed to by _self, therefore we need to make
 // sure that we do not put a const qualifier in front of it.
-static void Entity2D_move(void * _self, int dx, int dy)
+static void Entity2D_draw(const void * _self)
 {
 	// First we cast the self pointer to the correct type
-	struct Entity2D * self = _self;
+	const struct Entity2D * self = _self;
 
 	// Then we will actually do the job here
-	self->x = self->x + dx;
-	self->y = self->y + dy;
+	DrawPixel(self->x, self->y, self->color);
 }
 //------------------------------------------------------------------------------
 // Entity2DClass methods. We don't need much, usually just a simple ctor is eno-
@@ -110,8 +130,8 @@ static void * Entity2DClass_ctor(void * _self, va_list * arglist_ptr)
 	{
 		funcptr method = va_arg(cpy_arglist, funcptr);
 		// Only part we change to add methods to their resprective slots.
-		if (selector == (funcptr) move)
-			*((funcptr *) &self->move) = method;
+		if (selector == (funcptr) draw)
+			*((funcptr *) &self->draw) = method;
 	}
 	va_end(cpy_arglist);
 	
@@ -146,7 +166,7 @@ void initEntity2D(void)
 				Object,
 				sizeof(struct Entity2D),
 				ctor, Entity2D_ctor,
-				move, Entity2D_move,
+				draw, Entity2D_draw,
 				NULL);
 	}
 }

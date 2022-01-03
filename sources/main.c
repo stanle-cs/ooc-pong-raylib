@@ -10,9 +10,9 @@ int main(void)
 	//--------------------------------------------------------------------------------------
 	initEntity2D();
 	initPaddle();
-	void * p = new(Entity2D, 1, 2);
-	void * paddleLeft = new(Paddle, 10, 160, 20, 80);
-	void * paddleRight = new(Paddle, 770, 160, 20, 80);
+	void * p = new(Entity2D, 1, 2, RED);
+	void * paddleLeft = new(Paddle, 10, 160, DARKBLUE, 20, 80);
+	void * paddleRight = new(Paddle, 770, 160, DARKBLUE, 20, 80);
 	puto(p, stdout);
 	printf("The position of p is %d %d\n", get_x(p), get_y(p));
 	move(p, 2, 3);
@@ -42,7 +42,7 @@ int main(void)
 		//DrawLine(400, 0, 400, 400, DARKGRAY);
 		DrawText("PONG", 400 - (MeasureText("PONG", 20) / 2), 10, 20, LIGHTGRAY);
 		move(p, 400 - get_x(p), 200 - get_y(p));
-		DrawCircle(get_x(p), get_y(p), 10.0, DARKGREEN);
+		DrawCircle(get_x(p), get_y(p), 10.0, get_color(p));
 		draw(paddleLeft);
 		draw(paddleRight);
 

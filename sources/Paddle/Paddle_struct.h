@@ -16,5 +16,3 @@ struct PaddleClass
 	void (*draw)(const void * self);
 };
 
-void super_draw(const void * class, const void * self);
-

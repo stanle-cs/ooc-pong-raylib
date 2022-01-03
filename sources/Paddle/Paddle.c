@@ -26,24 +26,7 @@ int get_h(const void * _self)
 //------------------------------------------------------------------------------
 //dynamic
 
-void draw(const void * _self)
-{
-	const struct PaddleClass * class = class_of(_self);
-
-	assert(class->draw);
-	class->draw(_self);
-}
-
-//------------------------------------------------------------------------------
-//super selector
-
-void super_draw(const void * _class, const void * _self)
-{
-	const struct PaddleClass * superclass = super(_class);
-
-	assert(_self && superclass->draw);
-	superclass->draw(_self);
-}
+// Nothing needed since draw is inherited from Entity2D.
 
 //------------------------------------------------------------------------------
 //actual method
@@ -64,7 +47,7 @@ static void Paddle_draw(const void * _self)
 
 	assert(self);
 
-	DrawRectangle(get_x(self), get_y(self), self->w, self->h, DARKGRAY);
+	DrawRectangle(get_x(self), get_y(self), self->w, self->h, get_color(self));
 }
 
 //------------------------------------------------------------------------------
