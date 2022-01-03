@@ -9,6 +9,9 @@ int main(void)
 	initEntity2D();
 	void * p = new(Entity2D, 1, 2);
 	puto(p, stdout);
+	printf("The position of p is %d %d\n", get_x(p), get_y(p));
+	move(p, 2, 3);
+	printf("The position of p is %d %d\n", get_x(p), get_y(p));
 	delete(p);
 	const int screenWidth = 800;
 	const int screenHeight = 450;

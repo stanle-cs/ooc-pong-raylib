@@ -5,12 +5,26 @@
 #include "Entity2D.h"
 #include "Entity2D_struct.h"
 
+//------------------------------------------------------------------------------
 /* All the static methods. Static methods are methods that can be inherited as-
  * is and the subclasses won't need to implement their own version of these
  */
 
-// Here we have none since we didn't create any static methods
+int get_x(void * _self)
+{
+	const struct Entity2D * self = _self;
+	assert(self && self->x);
 
+	return self->x;
+}
+
+int get_y(void * _self)
+{
+	const struct Entity2D * self = _self;
+	assert(self && self->y);
+
+	return self->y;
+}
 //------------------------------------------------------------------------------
 /* Dynamic methods. These are the selectors we create so that we can select new
  * methods created by any subclasses of this class later on.

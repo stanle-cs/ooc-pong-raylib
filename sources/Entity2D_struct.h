@@ -20,6 +20,8 @@ struct Entity2D
 	int x;
 	int y;
 };
+#define GET_X(p) (((const struct Entity2D *) (p))->x)
+#define GET_Y(p) (((const struct Entity2D *) (p))->y)
 
 // Entity2DClass class descriptor
 struct Entity2DClass

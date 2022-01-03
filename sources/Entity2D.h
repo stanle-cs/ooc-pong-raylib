@@ -8,8 +8,9 @@
 extern const void * Entity2D;
 
 // Describe all the methods you wish to expose to the world
-void move(void * _self, int dx, int dy);
-
+void move(void * self, int dx, int dy);
+int get_x(void * self);
+int get_y(void * self);
 // An init method is needed because we need to set up the class before we use
 // it for the first time. In our program we can create something like an initOOC
 // method that will handle all these inits for us.
