@@ -1,4 +1,5 @@
 #include <assert.h>
+#include <math.h>
 #include <raylib.h>
 // All implementation file of a new class need to include the class's struct and
 // the class's header file
@@ -15,7 +16,7 @@
 int get_x(const void * _self)
 {
 	const struct Entity2D * self = _self;
-	assert(self && self->x);
+	assert(self);
 
 	return self->x;
 }
@@ -23,7 +24,7 @@ int get_x(const void * _self)
 int get_y(const void * _self)
 {
 	const struct Entity2D * self = _self;
-	assert(self && self->y);
+	assert(self);
 
 	return self->y;
 }
@@ -37,14 +38,23 @@ Color get_color(const void * _self)
 }
 
 //setters
-
-void move(void * _self, int dx, int dy)
+void set_position(void * _self, int newX, int newY)
 {
 	struct Entity2D * self = _self;
 	assert(self);
+
+	self->x = newX;
+	self->y = newY;
+}
+
+void move(void * _self, int dx, int dy)
+{
+	float force = 100.0;
+	struct Entity2D * self = _self;
+	assert(self);
 	
-	self->x = self->x + dx;
-	self->y = self->y + dy;
+	self->x = self->x + round(force*dx*GetFrameTime());
+	self->y = self->y + round(force*dy*GetFrameTime());
 }
 //------------------------------------------------------------------------------
 /* Dynamic methods. These are the selectors we create so that we can select new

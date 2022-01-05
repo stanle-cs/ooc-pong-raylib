@@ -28,10 +28,11 @@ struct Entity2D
 // Entity2DClass class descriptor
 struct Entity2DClass
 {
-	// this is the class descriptor, required to be at the beginning of the file
+	// This is the class descriptor, required to be at the beginning of the file
 	const struct Class _; 	
-	// From here down are the methods of the class
-	// No need to list all the methods that are listed by the superclass
+	// From here down are the method selectors of the class.
+	// No need to list all the methods that are listed by the superclass, only
+	// the ones that you intend to overload.
 	void (*draw) (const void * self);
 	
 };
